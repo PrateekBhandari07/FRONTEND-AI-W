@@ -3,7 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
 import { Eye, Info, TrendingUp, TrendingDown } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
 
 const ExplainabilitySection = () => {
   const shapData = [
@@ -98,17 +98,14 @@ const ExplainabilitySection = () => {
                 <XAxis type="number" domain={[-0.5, 0.5]} />
                 <YAxis dataKey="feature" type="category" width={100} />
                 <Tooltip 
-                  formatter={(value, name) => [
-                    `${value > 0 ? '+' : ''}${(value * 100).toFixed(1)}%`,
+                  formatter={(value) => [
+                    `${Number(value) > 0 ? '+' : ''}${(Number(value) * 100).toFixed(1)}%`,
                     'Impact on Score'
                   ]}
                 />
-                <Bar 
-                  dataKey="impact" 
-                  fill={(entry) => entry.direction === 'positive' ? '#10b981' : '#ef4444'}
-                >
+                <Bar dataKey="impact">
                   {shapData.map((entry, index) => (
-                    <Bar key={index} fill={entry.direction === 'positive' ? '#10b981' : '#ef4444'} />
+                    <Cell key={`cell-${index}`} fill={entry.direction === 'positive' ? '#10b981' : '#ef4444'} />
                   ))}
                 </Bar>
               </BarChart>

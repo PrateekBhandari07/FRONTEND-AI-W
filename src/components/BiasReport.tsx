@@ -45,7 +45,7 @@ const BiasReport = () => {
       case 'good':
         return <CheckCircle className="w-4 h-4 text-green-600" />;
       case 'warning':
-        return <AlertTriangle className="w-4 h-4 text-yellow-600" />;
+        return <AlertTriangle className="w-4 w-4 text-yellow-600" />;
       case 'critical':
         return <AlertTriangle className="w-4 h-4 text-red-600" />;
       default:
@@ -111,7 +111,7 @@ const BiasReport = () => {
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="group" />
                 <YAxis domain={[0, 1]} />
-                <Tooltip formatter={(value) => [`${(value * 100).toFixed(1)}%`, '']} />
+                <Tooltip formatter={(value) => [`${(Number(value) * 100).toFixed(1)}%`, '']} />
                 <Bar dataKey="predictions" fill="#3b82f6" name="Model Predictions" />
                 <Bar dataKey="actualRate" fill="#10b981" name="Actual Rate" />
               </BarChart>
