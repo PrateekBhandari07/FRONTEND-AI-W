@@ -9,6 +9,7 @@ import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const UploadSection = () => {
   const [uploadedFile, setUploadedFile] = useState(false);
+  const [dataSource, setDataSource] = useState<'file' | 'sample' | null>(null);
   
   const sampleData = [
     { id: 'U001', email: 'john@example.com', age: 28, location: 'NY', engagement: 0.85 },
@@ -28,6 +29,12 @@ const UploadSection = () => {
 
   const handleFileUpload = () => {
     setUploadedFile(true);
+    setDataSource('file');
+  };
+
+  const handleUseSampleData = () => {
+    setUploadedFile(true);
+    setDataSource('sample');
   };
 
   return (
@@ -52,7 +59,7 @@ const UploadSection = () => {
                 <Button onClick={handleFileUpload} className="bg-blue-600 hover:bg-blue-700">
                   Choose File
                 </Button>
-                <Button variant="outline">
+                <Button variant="outline" onClick={handleUseSampleData}>
                   Use Sample Data
                 </Button>
               </div>
@@ -65,14 +72,19 @@ const UploadSection = () => {
               <Alert>
                 <CheckCircle className="h-4 w-4" />
                 <AlertDescription>
-                  File uploaded successfully! Processing data for ethical AI analysis...
+                  {dataSource === 'file' 
+                    ? 'File uploaded successfully! Processing data for ethical AI analysis...' 
+                    : 'Sample data loaded successfully! Ready for ethical AI analysis...'
+                  }
                 </AlertDescription>
               </Alert>
               
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-2">
                   <FileCheck className="w-5 h-5 text-green-600" />
-                  <span className="font-medium">marketing_dataset.csv</span>
+                  <span className="font-medium">
+                    {dataSource === 'file' ? 'marketing_dataset.csv' : 'sample_dataset.csv'}
+                  </span>
                   <Badge className="bg-green-100 text-green-800">Processed</Badge>
                 </div>
                 <Button variant="outline" size="sm">Replace File</Button>
@@ -88,7 +100,12 @@ const UploadSection = () => {
           <Card>
             <CardHeader>
               <CardTitle>Data Preview</CardTitle>
-              <CardDescription>First 5 rows of your uploaded dataset</CardDescription>
+              <CardDescription>
+                {dataSource === 'file' 
+                  ? 'First 5 rows of your uploaded dataset' 
+                  : 'Sample dataset for demonstration'
+                }
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="rounded-lg border overflow-hidden">
