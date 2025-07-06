@@ -1,37 +1,30 @@
-
+// ComplianceScanner.tsx
 import { useState } from 'react';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card, CardContent, CardDescription, CardHeader, CardTitle
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Shield, Upload, AlertTriangle, CheckCircle, Eye, FileText } from 'lucide-react';
+import {
+  Shield, Upload, AlertTriangle, CheckCircle, Eye, FileText
+} from 'lucide-react';
 
 const ComplianceScanner = () => {
   const [campaignContent, setCampaignContent] = useState('');
   const [scanComplete, setScanComplete] = useState(false);
+  const [scanResults, setScanResults] = useState<null | {
+    piiIssues: any[],
+    gdprIssues: any[],
+    darkPatterns: any[]
+  }>(null);
 
   const sampleContent = `🚨 URGENT: Limited Time Offer! 
 Only 24 hours left to get 50% OFF!
 Join now with your email: john.doe@gmail.com
 *Terms and conditions apply (see fine print below)
 Click here immediately - offer expires soon!`;
-
-  const scanResults = {
-    piiIssues: [
-      { type: 'Email Address', content: 'john.doe@gmail.com', severity: 'high', description: 'Personal email exposed in campaign text' },
-      { type: 'Phone Number', content: '(555) 123-4567', severity: 'medium', description: 'Phone number found in footer text' }
-    ],
-    gdprIssues: [
-      { type: 'Missing Consent', content: 'Email collection without clear consent', severity: 'high', description: 'No explicit consent mechanism provided' },
-      { type: 'Data Processing', content: 'Unclear data usage statement', severity: 'medium', description: 'Purpose of data collection not clearly stated' }
-    ],
-    darkPatterns: [
-      { type: 'False Urgency', content: 'Only 24 hours left!', severity: 'high', description: 'Creates artificial time pressure' },
-      { type: 'Hidden Terms', content: 'Terms in fine print', severity: 'medium', description: 'Important terms not prominently displayed' },
-      { type: 'Forced Action', content: 'Click here immediately', severity: 'medium', description: 'Pressures immediate action' }
-    ]
-  };
 
   const getSeverityColor = (severity: string) => {
     switch (severity) {
@@ -52,12 +45,64 @@ Click here immediately - offer expires soon!`;
   };
 
   const handleScan = () => {
+    if (!campaignContent.trim()) {
+      alert('Please enter campaign content or upload a file before scanning.');
+      return;
+    }
+
+    // Simulated scan logic
+    const piiIssues = [];
+    const gdprIssues = [];
+    const darkPatterns = [];
+
+    if (/\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z]{2,}\b/i.test(campaignContent)) {
+      piiIssues.push({
+        type: 'Email Address',
+        content: 'Detected email',
+        severity: 'high',
+        description: 'Possible email address found'
+      });
+    }
+
+    if (/click here/im.test(campaignContent)) {
+      darkPatterns.push({
+        type: 'Forced Action',
+        content: 'Click here',
+        severity: 'medium',
+        description: 'Pressures immediate action'
+      });
+    }
+
+    if (/24 hours|limited time/im.test(campaignContent)) {
+      darkPatterns.push({
+        type: 'False Urgency',
+        content: 'Limited time offer',
+        severity: 'high',
+        description: 'Creates artificial time pressure'
+      });
+    }
+
+    if (!/consent|permission|agree|opt-in/i.test(campaignContent)) {
+      gdprIssues.push({
+        type: 'Missing Consent',
+        content: 'No explicit consent language',
+        severity: 'high',
+        description: 'Lack of consent request may violate GDPR'
+      });
+    }
+
+    setScanResults({ piiIssues, gdprIssues, darkPatterns });
     setScanComplete(true);
   };
 
-  const totalIssues = scanResults.piiIssues.length + scanResults.gdprIssues.length + scanResults.darkPatterns.length;
-  const highSeverityIssues = [...scanResults.piiIssues, ...scanResults.gdprIssues, ...scanResults.darkPatterns]
-    .filter(issue => issue.severity === 'high').length;
+  const totalIssues = scanResults
+    ? scanResults.piiIssues.length + scanResults.gdprIssues.length + scanResults.darkPatterns.length
+    : 0;
+
+  const highSeverityIssues = scanResults
+    ? [...scanResults.piiIssues, ...scanResults.gdprIssues, ...scanResults.darkPatterns]
+        .filter(issue => issue.severity === 'high').length
+    : 0;
 
   return (
     <div className="space-y-6">
@@ -92,13 +137,21 @@ Click here immediately - offer expires soon!`;
               className="min-h-32 mb-4"
             />
             <div className="flex space-x-2">
-              <Button onClick={handleScan} className="bg-blue-600 hover:bg-blue-700">
+              <Button
+                onClick={handleScan}
+                disabled={!campaignContent.trim()}
+                className="bg-blue-600 hover:bg-blue-700 disabled:opacity-50"
+              >
                 <Shield className="w-4 h-4 mr-2" />
                 Scan Content
               </Button>
-              <Button 
-                variant="outline" 
-                onClick={() => setCampaignContent(sampleContent)}
+              <Button
+                variant="outline"
+                onClick={() => {
+                  setCampaignContent(sampleContent);
+                  setScanComplete(false);
+                  setScanResults(null);
+                }}
               >
                 Use Sample
               </Button>
@@ -125,9 +178,9 @@ Click here immediately - offer expires soon!`;
         </Card>
       </div>
 
-      {scanComplete && (
+      {scanComplete && scanResults && (
         <>
-          {/* Scan Results Overview */}
+          {/* Summary */}
           <Card>
             <CardHeader>
               <CardTitle>Scan Results Summary</CardTitle>
@@ -164,9 +217,8 @@ Click here immediately - offer expires soon!`;
             </CardContent>
           </Card>
 
-          {/* Detailed Results */}
-          <div className="space-y-6">
-            {/* PII Issues */}
+          {/* Detailed PII Issues */}
+          {scanResults.piiIssues.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -195,8 +247,10 @@ Click here immediately - offer expires soon!`;
                 </div>
               </CardContent>
             </Card>
+          )}
 
-            {/* GDPR Issues */}
+          {/* GDPR Issues */}
+          {scanResults.gdprIssues.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -225,8 +279,10 @@ Click here immediately - offer expires soon!`;
                 </div>
               </CardContent>
             </Card>
+          )}
 
-            {/* Dark Patterns */}
+          {/* Dark Patterns */}
+          {scanResults.darkPatterns.length > 0 && (
             <Card>
               <CardHeader>
                 <CardTitle className="flex items-center space-x-2">
@@ -255,7 +311,7 @@ Click here immediately - offer expires soon!`;
                 </div>
               </CardContent>
             </Card>
-          </div>
+          )}
         </>
       )}
     </div>

@@ -1,12 +1,21 @@
 
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { useState } from 'react';
+import {
+  Card, CardContent, CardDescription, CardHeader, CardTitle
+} from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
+import {
+  Table, TableBody, TableCell, TableHead, TableHeader, TableRow
+} from '@/components/ui/table';
 import { TrendingUp, Download, Filter } from 'lucide-react';
 import { Progress } from '@/components/ui/progress';
+import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
+import { Separator } from '@/components/ui/separator';
 
 const LeadScoringModule = () => {
+  const [filterSegment, setFilterSegment] = useState<string | null>(null);
+
   const leadData = [
     { id: 'U001', score: 0.92, segment: 'High Value', confidence: 0.87, email: 'john@example.com' },
     { id: 'U002', score: 0.78, segment: 'Medium', confidence: 0.82, email: 'sarah@example.com' },
@@ -17,6 +26,10 @@ const LeadScoringModule = () => {
     { id: 'U007', score: 0.89, segment: 'High Value', confidence: 0.88, email: 'alex@example.com' },
     { id: 'U008', score: 0.34, segment: 'Low Priority', confidence: 0.72, email: 'maria@example.com' }
   ];
+
+  const filteredData = filterSegment
+    ? leadData.filter((lead) => lead.segment === filterSegment)
+    : leadData;
 
   const getScoreBadge = (score: number) => {
     if (score >= 0.8) return { color: 'bg-green-100 text-green-800 border-green-200', label: 'High' };
@@ -33,6 +46,32 @@ const LeadScoringModule = () => {
     }
   };
 
+  const downloadCSV = () => {
+    const headers = ['User ID', 'Email', 'Lead Score', 'Score Level', 'Segment', 'Confidence'];
+    const rows = filteredData.map(lead => {
+      const scoreLevel = getScoreBadge(lead.score).label;
+      return [
+        lead.id,
+        lead.email,
+        (lead.score * 100).toFixed(0) + '%',
+        scoreLevel,
+        lead.segment,
+        (lead.confidence * 100).toFixed(0) + '%'
+      ].join(',');
+    });
+
+    const csvContent = [headers.join(','), ...rows].join('\n');
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.setAttribute('download', 'LeadScoringResults.csv');
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(url);
+  };
+
   const stats = {
     highValue: leadData.filter(lead => lead.segment === 'High Value').length,
     medium: leadData.filter(lead => lead.segment === 'Medium').length,
@@ -43,41 +82,16 @@ const LeadScoringModule = () => {
 
   return (
     <div className="space-y-6">
-      {/* Header Stats */}
+      {/* Stats Header */}
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-4">
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-green-600">{stats.highValue}</div>
-            <div className="text-sm text-slate-600">High Value Leads</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-blue-600">{stats.medium}</div>
-            <div className="text-sm text-slate-600">Medium Leads</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-slate-600">{stats.lowPriority}</div>
-            <div className="text-sm text-slate-600">Low Priority</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-slate-900">{stats.avgScore}</div>
-            <div className="text-sm text-slate-600">Avg Score</div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="text-2xl font-bold text-slate-900">{stats.avgConfidence}</div>
-            <div className="text-sm text-slate-600">Avg Confidence</div>
-          </CardContent>
-        </Card>
+        <Card><CardContent className="p-4"><div className="text-2xl font-bold text-green-600">{stats.highValue}</div><div className="text-sm text-slate-600">High Value Leads</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-2xl font-bold text-blue-600">{stats.medium}</div><div className="text-sm text-slate-600">Medium Leads</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-2xl font-bold text-slate-600">{stats.lowPriority}</div><div className="text-sm text-slate-600">Low Priority</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-2xl font-bold text-slate-900">{stats.avgScore}</div><div className="text-sm text-slate-600">Avg Score</div></CardContent></Card>
+        <Card><CardContent className="p-4"><div className="text-2xl font-bold text-slate-900">{stats.avgConfidence}</div><div className="text-sm text-slate-600">Avg Confidence</div></CardContent></Card>
       </div>
 
-      {/* Lead Scoring Table */}
+      {/* Table */}
       <Card>
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -86,16 +100,27 @@ const LeadScoringModule = () => {
                 <TrendingUp className="w-5 h-5" />
                 <span>Lead Scoring Results</span>
               </CardTitle>
-              <CardDescription>
-                AI-predicted lead scores with confidence intervals and segmentation
-              </CardDescription>
+              <CardDescription>AI-predicted lead scores with confidence intervals and segmentation</CardDescription>
             </div>
             <div className="flex space-x-2">
-              <Button variant="outline" size="sm">
-                <Filter className="w-4 h-4 mr-2" />
-                Filter
-              </Button>
-              <Button size="sm" className="bg-green-600 hover:bg-green-700">
+              <Popover>
+                <PopoverTrigger asChild>
+                  <Button variant="outline" size="sm">
+                    <Filter className="w-4 h-4 mr-2" />
+                    {filterSegment ? filterSegment : 'Filter'}
+                  </Button>
+                </PopoverTrigger>
+                <PopoverContent className="w-48 p-2">
+                  <div className="space-y-2">
+                    <Button variant="ghost" className="w-full justify-start text-left" onClick={() => setFilterSegment(null)}>All</Button>
+                    <Separator />
+                    <Button variant="ghost" className="w-full justify-start text-left" onClick={() => setFilterSegment('High Value')}>High Value</Button>
+                    <Button variant="ghost" className="w-full justify-start text-left" onClick={() => setFilterSegment('Medium')}>Medium</Button>
+                    <Button variant="ghost" className="w-full justify-start text-left" onClick={() => setFilterSegment('Low Priority')}>Low Priority</Button>
+                  </div>
+                </PopoverContent>
+              </Popover>
+              <Button size="sm" className="bg-green-600 hover:bg-green-700" onClick={downloadCSV}>
                 <Download className="w-4 h-4 mr-2" />
                 Download CSV
               </Button>
@@ -117,7 +142,7 @@ const LeadScoringModule = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {leadData.map((lead) => {
+                {filteredData.map((lead) => {
                   const scoreBadge = getScoreBadge(lead.score);
                   return (
                     <TableRow key={lead.id} className="hover:bg-slate-50">
@@ -127,14 +152,10 @@ const LeadScoringModule = () => {
                         <span className="font-bold text-lg">{(lead.score * 100).toFixed(0)}%</span>
                       </TableCell>
                       <TableCell>
-                        <Badge className={scoreBadge.color}>
-                          {scoreBadge.label}
-                        </Badge>
+                        <Badge className={scoreBadge.color}>{scoreBadge.label}</Badge>
                       </TableCell>
                       <TableCell>
-                        <Badge className={getSegmentColor(lead.segment)}>
-                          {lead.segment}
-                        </Badge>
+                        <Badge className={getSegmentColor(lead.segment)}>{lead.segment}</Badge>
                       </TableCell>
                       <TableCell>{(lead.confidence * 100).toFixed(0)}%</TableCell>
                       <TableCell>
@@ -148,9 +169,8 @@ const LeadScoringModule = () => {
               </TableBody>
             </Table>
           </div>
-          
           <div className="mt-4 flex justify-between items-center text-sm text-slate-600">
-            <span>Showing 8 of 15,847 leads</span>
+            <span>Showing {filteredData.length} of {leadData.length} leads</span>
             <div className="flex space-x-2">
               <Button variant="outline" size="sm">Previous</Button>
               <Button variant="outline" size="sm">Next</Button>

@@ -29,7 +29,7 @@ const Index = () => {
     { id: 'explainability', label: 'AI Explainability', icon: Eye },
     { id: 'bias', label: 'Bias & Fairness', icon: Scale },
     { id: 'compliance', label: 'Compliance', icon: Shield },
-    { id: 'ethics', label: 'Ethical AI', icon: Brain },
+    { id: 'ethics', label: 'Morality compass', icon: Brain },
     { id: 'anomalies', label: 'Anomaly Detection', icon: AlertTriangle },
   ];
 
@@ -49,7 +49,7 @@ const Index = () => {
                 <Shield className="w-6 h-6 text-white" />
               </div>
               <div>
-                <h1 className="text-xl font-bold text-slate-900">TrustPilot</h1>
+                <h1 className="text-xl font-bold text-slate-900">BlindSpot</h1>
                 <p className="text-sm text-slate-600 hidden sm:block">Ethical AI Marketing Platform</p>
               </div>
             </div>

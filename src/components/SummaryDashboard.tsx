@@ -45,10 +45,10 @@ const SummaryDashboard = () => {
   ];
 
   const campaignData = [
-    { name: 'Email', leads: 2400, ethical: 95 },
-    { name: 'Social', leads: 1398, ethical: 88 },
+    { name: 'Email', leads: 2400, ethical: 195 },
+    { name: 'Social', leads: 1398, ethical: 588 },
     { name: 'Display', leads: 800, ethical: 92 },
-    { name: 'Search', leads: 3008, ethical: 85 }
+    { name: 'Search', leads: 3008, ethical: 1985 }
   ];
 
   const getStatusColor = (status: string) => {
@@ -78,7 +78,7 @@ const SummaryDashboard = () => {
             <Button variant="secondary" className="bg-white text-blue-600 hover:bg-blue-50">
               Export Compliance Report
             </Button>
-            <Button variant="outline" className="border-white text-white hover:bg-white/20">
+            <Button variant="outline" className="border-white text-blue-600 hover:bg-white/20">
               View Details
             </Button>
           </div>

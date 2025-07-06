@@ -1,4 +1,4 @@
-
+// EthicalSuggestions.tsx
 import { useState } from 'react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
@@ -55,6 +55,8 @@ const EthicalSuggestions = () => {
   ]);
 
   const [customInput, setCustomInput] = useState('');
+  const [selectedSuggestion, setSelectedSuggestion] = useState<any | null>(null);
+  const [customLoading, setCustomLoading] = useState(false);
 
   const additionalSuggestions = [
     'Consider adding clear opt-out mechanisms for all marketing communications',
@@ -66,40 +68,45 @@ const EthicalSuggestions = () => {
   ];
 
   const handleAcceptSuggestion = (id: number) => {
-    setSuggestions(prev => 
-      prev.map(suggestion => 
-        suggestion.id === id 
-          ? { ...suggestion, accepted: !suggestion.accepted }
-          : suggestion
+    setSuggestions(prev =>
+      prev.map(suggestion =>
+        suggestion.id === id ? { ...suggestion, accepted: !suggestion.accepted } : suggestion
       )
     );
   };
 
   const generateNewSuggestions = () => {
-    // In a real app, this would call an AI service
-    console.log('Generating new AI suggestions...');
+    console.log('Simulated regeneration of AI suggestions');
   };
 
   const getImpactColor = (impact: string) => {
     switch (impact) {
-      case 'High': return 'bg-red-100 text-red-800 border-red-200';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Low': return 'bg-green-100 text-green-800 border-green-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'High':
+        return 'bg-red-100 text-red-800 border-red-200';
+      case 'Medium':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'Low':
+        return 'bg-green-100 text-green-800 border-green-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   const getDifficultyColor = (difficulty: string) => {
     switch (difficulty) {
-      case 'Easy': return 'bg-green-100 text-green-800 border-green-200';
-      case 'Medium': return 'bg-yellow-100 text-yellow-800 border-yellow-200';
-      case 'Hard': return 'bg-red-100 text-red-800 border-red-200';
-      default: return 'bg-gray-100 text-gray-800 border-gray-200';
+      case 'Easy':
+        return 'bg-green-100 text-green-800 border-green-200';
+      case 'Medium':
+        return 'bg-yellow-100 text-yellow-800 border-yellow-200';
+      case 'Hard':
+        return 'bg-red-100 text-red-800 border-red-200';
+      default:
+        return 'bg-gray-100 text-gray-800 border-gray-200';
     }
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-6 relative">
       {/* Header */}
       <Card className="bg-gradient-to-r from-green-50 to-blue-50 border-green-200">
         <CardHeader>
@@ -152,7 +159,9 @@ const EthicalSuggestions = () => {
         <CardHeader className="flex flex-row items-center justify-between">
           <div>
             <CardTitle>Personalized Ethical Recommendations</CardTitle>
-            <CardDescription>AI-generated suggestions based on your campaign analysis</CardDescription>
+            <CardDescription>
+              AI-generated suggestions based on your campaign analysis
+            </CardDescription>
           </div>
           <Button onClick={generateNewSuggestions} className="bg-blue-600 hover:bg-blue-700">
             <RefreshCw className="w-4 h-4 mr-2" />
@@ -161,9 +170,9 @@ const EthicalSuggestions = () => {
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
-            {suggestions.map((suggestion) => (
-              <div 
-                key={suggestion.id} 
+            {suggestions.map(suggestion => (
+              <div
+                key={suggestion.id}
                 className={`p-4 border rounded-lg transition-all ${
                   suggestion.accepted ? 'bg-green-50 border-green-200' : 'hover:shadow-md'
                 }`}
@@ -187,7 +196,6 @@ const EthicalSuggestions = () => {
                   </div>
                 </div>
 
-                {/* Before/After */}
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
                   <div className="p-3 bg-red-50 border border-red-200 rounded">
                     <div className="text-xs font-medium text-red-800 mb-1">BEFORE</div>
@@ -203,13 +211,15 @@ const EthicalSuggestions = () => {
                 <div className="flex space-x-2">
                   <Button
                     size="sm"
-                    variant={suggestion.accepted ? "secondary" : "default"}
+                    variant={suggestion.accepted ? 'secondary' : 'default'}
                     onClick={() => handleAcceptSuggestion(suggestion.id)}
-                    className={suggestion.accepted ? "bg-green-100 text-green-800 hover:bg-green-200" : ""}
+                    className={
+                      suggestion.accepted ? 'bg-green-100 text-green-800 hover:bg-green-200' : ''
+                    }
                   >
                     {suggestion.accepted ? 'Accepted' : 'Accept Suggestion'}
                   </Button>
-                  <Button size="sm" variant="outline">
+                  <Button size="sm" variant="outline" onClick={() => setSelectedSuggestion(suggestion)}>
                     More Details
                   </Button>
                 </div>
@@ -250,15 +260,72 @@ const EthicalSuggestions = () => {
           <Textarea
             placeholder="Describe your marketing campaign or ethical concern..."
             value={customInput}
-            onChange={(e) => setCustomInput(e.target.value)}
+            onChange={e => setCustomInput(e.target.value)}
             className="mb-4"
           />
-          <Button className="bg-green-600 hover:bg-green-700">
-            <Brain className="w-4 h-4 mr-2" />
-            Generate Custom Suggestions
+          <Button
+            className="bg-green-600 hover:bg-green-700"
+            onClick={() => {
+              if (!customInput.trim()) return;
+              setCustomLoading(true);
+              setTimeout(() => {
+                const newSuggestion = {
+                  id: Date.now(),
+                  category: 'Custom',
+                  title: 'User-Defined Ethical Suggestion',
+                  description: customInput,
+                  impact: 'Medium',
+                  difficulty: 'Medium',
+                  before: 'Your previous setup or message here',
+                  after: 'Ethical alternative generated from your input',
+                  accepted: false
+                };
+                setSuggestions(prev => [...prev, newSuggestion]);
+                setCustomInput('');
+                setCustomLoading(false);
+              }, 1000);
+            }}
+            disabled={customLoading}
+          >
+            {customLoading ? (
+              <>
+                <Brain className="w-4 h-4 mr-2 animate-spin" />
+                Generating...
+              </>
+            ) : (
+              <>
+                <Brain className="w-4 h-4 mr-2" />
+                Generate Custom Suggestions
+              </>
+            )}
           </Button>
         </CardContent>
       </Card>
+
+      {/* Modal for More Details */}
+      {selectedSuggestion && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 w-full max-w-lg">
+            <h2 className="text-xl font-semibold mb-2">{selectedSuggestion.title}</h2>
+            <p className="text-slate-600 mb-4">{selectedSuggestion.description}</p>
+            <div className="grid grid-cols-2 gap-4 mb-4">
+              <div className="p-3 bg-red-50 border border-red-200 rounded">
+                <div className="text-xs font-medium text-red-800 mb-1">BEFORE</div>
+                <div className="text-sm text-red-700">{selectedSuggestion.before}</div>
+              </div>
+              <div className="p-3 bg-green-50 border border-green-200 rounded">
+                <div className="text-xs font-medium text-green-800 mb-1">AFTER</div>
+                <div className="text-sm text-green-700">{selectedSuggestion.after}</div>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <Button variant="outline" onClick={() => setSelectedSuggestion(null)}>
+                Close
+              </Button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
