@@ -4,7 +4,7 @@ Frontend of HWI
 
 **TrustPilot** is an AI-driven platform that enables marketers, data scientists, and compliance officers to build **ethically sound, transparent, and fair marketing campaigns**. It bridges the gap between performance-driven strategies and responsible AI practices.
 
-> 🌐 Built during Texpedition Hackathon '25 , this project focuses on explainability, fairness, privacy compliance, and a proprietary **Morality Compass** that scores your marketing decisions based on ethical impact.
+🌐 Built during Texpedition Hackathon '25 , this project focuses on explainability, fairness, privacy compliance, and a proprietary **Morality Compass** that scores your marketing decisions based on ethical impact.
 
 ---
 
@@ -35,9 +35,9 @@ This frontend uses:
 ## 🛠️ Getting Started
 
 Follow these steps to set up the project locally:
-
+```
 ### Step 1: Clone the Repository
-```bash
+bash
 git clone <YOUR_GIT_URL>
 
 Step 2: Navigate to the Project Directory
