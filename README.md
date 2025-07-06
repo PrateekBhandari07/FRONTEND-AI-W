@@ -4,67 +4,51 @@ Frontend of HWI
 
 **TrustPilot** is an AI-driven platform that enables marketers, data scientists, and compliance officers to build **ethically sound, transparent, and fair marketing campaigns**. It bridges the gap between performance-driven strategies and responsible AI practices.
 
-> 🌐 Built during [Hackathon Name], this project focuses on explainability, fairness, privacy compliance, and a proprietary **Morality Compass** that scores your marketing decisions based on ethical impact.
+> 🌐 Built during Texpedition Hackathon '25 , this project focuses on explainability, fairness, privacy compliance, and a proprietary **Morality Compass** that scores your marketing decisions based on ethical impact.
+
+---
+
+## 🚀 Features
+# FRONTEND-HWI
+
+A **React + Vite + TypeScript frontend** for the **Holistic Web Intelligence (HWI) Platform**, providing a clean, fast, and scalable interface to interact with your deployed FastAPI backend for explainable AI, bias checking, lead scoring, and compliance analysis.
+
+This frontend uses:
+- **Vite** for ultra-fast builds and hot module reloading.
+- **React with SWC** for modern, efficient rendering.
+- **TailwindCSS** for rapid, clean UI styling.
+- **Radix UI** for accessible, composable components.
+- **TypeScript** for safe, scalable development.
 
 ---
 
 ## 🚀 Features
 
-### 📊 Core Functionalities
-- **Lead Scoring**  
-  Predicts likelihood of conversion using classification models.
-
-- **Budget Optimization**  
-  Reallocates marketing spend across segments for better ROI.
-
-- **Bias & Fairness Detection**  
-  Flags demographic bias using fairness metrics (Disparate Impact, Demographic Parity).
-
-- **Explainable AI (XAI)**  
-  Uses SHAP and LIME to explain lead scoring predictions.
-
-- **Compliance & Privacy Monitoring**  
-  Identifies PII and ensures GDPR alignment using NLP-based detection.
-
-- **Anomaly Detection**  
-  Alerts abnormal patterns in campaign behavior or audience targeting.
-
-### 🧭 Morality Compass (USP)
-A proprietary ethical scoring engine that evaluates marketing campaigns on:
-- Transparency
-- Manipulation Risk
-- Fairness to Audience
-- Intent Alignment
-- Privacy Impact  
-> Returns a score from 0 to 100 along with ethical status: ✅ *Ethical*, ⚠️ *Needs Review*, ❌ *Unethical*
+✅ Connects seamlessly with your FastAPI backend for real-time explainability and analytics.  
+✅ Clean, modular component structure for rapid feature development.  
+✅ Responsive design with TailwindCSS.  
+✅ Fast local development with hot reloading using Vite.  
+✅ Uses React Router for structured routing if needed.
 
 ---
 
-## 🧠 Tech Stack
+## 🛠️ Getting Started
 
-### 🎨 Frontend
-- React.js
-- Tailwind CSS / Material UI
-- Chart.js / Recharts
+Follow these steps to set up the project locally:
 
-### 🧩 Backend
-- Python (FastAPI)
-- Pydantic + Uvicorn
-- RESTful APIs
+### Step 1: Clone the Repository
+```bash
+git clone <YOUR_GIT_URL>
 
-### 🤖 AI/ML
-- Scikit-learn / XGBoost (Lead Scoring)
-- Fairlearn / AIF360 (Bias Detection)
-- SHAP / LIME (Explainability)
-- GPT-3.5 / Custom LLM API (Morality Compass)
-- spaCy + Transformers (Compliance NLP)
+Step 2: Navigate to the Project Directory
+cd FRONTEND-HWI
 
-### 💾 Storage
-- PostgreSQL
-- AWS S3 (for uploads)
-- Redis (optional for caching)
+Step 3: Install Dependencies
+npm i
 
----
+Step 4: Start the Development Server
+npm run dev
 
-## 📐 System Architecture
-
+The app will run at:
+http://localhost:8080
+```
