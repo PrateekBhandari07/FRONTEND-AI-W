@@ -1,6 +1,6 @@
 # FRONTEND-HWI
 Frontend of HWI
-# 🤖 TrustPilot – Ethical AI Marketing Platform
+# Blindspot – Ethical AI Marketing Platform
 
 **BlindSpot** is an AI-driven platform that enables marketers, data scientists, and compliance officers to build **ethically sound, transparent, and fair marketing campaigns**. It bridges the gap between performance-driven strategies and responsible AI practices.
 
