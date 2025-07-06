@@ -2,24 +2,43 @@
 Frontend of HWI
 # 🤖 TrustPilot – Ethical AI Marketing Platform
 
-**TrustPilot** is an AI-driven platform that enables marketers, data scientists, and compliance officers to build **ethically sound, transparent, and fair marketing campaigns**. It bridges the gap between performance-driven strategies and responsible AI practices.
+**BlindSpot** is an AI-driven platform that enables marketers, data scientists, and compliance officers to build **ethically sound, transparent, and fair marketing campaigns**. It bridges the gap between performance-driven strategies and responsible AI practices.
 
 🌐 Built during Texpedition Hackathon '25 , this project focuses on explainability, fairness, privacy compliance, and a proprietary **Morality Compass** that scores your marketing decisions based on ethical impact.
 
 ---
 
+## ✨ Project Overview
+
+**HWI (Holistic Web Intelligence)** is a platform designed to:
+- Upload datasets (CSV, Excel) for real-time analysis.
+- Train machine learning models and generate **SHAP explanations** for feature importance.
+- Check **bias and fairness** in datasets and models.
+- Run **compliance scans** on data for privacy, policy, and governance readiness.
+- Generate **lead scores** using predictive modeling.
+- Provide **ethical suggestions** for responsible AI development.
+
+The **FRONTEND-HWI** project:
+- Allows users to **upload datasets, visualize insights, and view AI explanations** interactively.
+- Connects seamlessly with the FastAPI backend to fetch and display processed analytics.
+- Uses **TailwindCSS, Radix UI, and React Query** for a clean, responsive, and user-friendly UI.
+- Is optimized for fast builds and local development using **Vite**.
+- Is structured for **easy scalability** if you wish to add charts, dashboards, or advanced routing later.
+
+---
+
 ## 🚀 Features
-# FRONTEND-HWI
 
-A **React + Vite + TypeScript frontend** for the **Holistic Web Intelligence (HWI) Platform**, providing a clean, fast, and scalable interface to interact with your deployed FastAPI backend for explainable AI, bias checking, lead scoring, and compliance analysis.
+✅ **Dataset Upload & Visualization**  
+✅ **Model Training Trigger**  
+✅ **SHAP Explainability Visualization**  
+✅ **Bias and Compliance Checking**  
+✅ **Lead Scoring for Uploaded Data**  
+✅ **Instant Feedback on Uploaded Datasets**  
+✅ **Fast local development with hot reload**  
+✅ **Clean, modular code for easy extension**  
 
-This frontend uses:
-- **Vite** for ultra-fast builds and hot module reloading.
-- **React with SWC** for modern, efficient rendering.
-- **TailwindCSS** for rapid, clean UI styling.
-- **Radix UI** for accessible, composable components.
-- **TypeScript** for safe, scalable development.
-
+---
 ---
 
 ## 🚀 Features
