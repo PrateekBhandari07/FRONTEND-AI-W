@@ -16,7 +16,7 @@ dist-ssr
 .vscode/*
 !.vscode/extensions.json
 .idea
-.DS_Store
+.DS_Storegit push -u origin main
 *.suo
 *.ntvs*
 *.njsproj
