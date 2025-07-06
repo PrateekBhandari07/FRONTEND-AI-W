@@ -1,5 +1,5 @@
-# FRONTEND-HWI
-Frontend of HWI
+# FRONTEND-AI-W
+Frontend of AI-W
 # Blindspot – Ethical AI Marketing Platform
 
 **BlindSpot** is an AI-driven platform that enables marketers, data scientists, and compliance officers to build **ethically sound, transparent, and fair marketing campaigns**. It bridges the gap between performance-driven strategies and responsible AI practices.
@@ -10,7 +10,7 @@ Frontend of HWI
 
 ## ✨ Project Overview
 
-**HWI (Holistic Web Intelligence)** is a platform designed to:
+**AI-W (Holistic Web Intelligence)** is a platform designed to:
 - Upload datasets (CSV, Excel) for real-time analysis.
 - Train machine learning models and generate **SHAP explanations** for feature importance.
 - Check **bias and fairness** in datasets and models.
@@ -18,7 +18,7 @@ Frontend of HWI
 - Generate **lead scores** using predictive modeling.
 - Provide **ethical suggestions** for responsible AI development.
 
-The **FRONTEND-HWI** project:
+The **FRONTEND-AW-I** project:
 - Allows users to **upload datasets, visualize insights, and view AI explanations** interactively.
 - Connects seamlessly with the FastAPI backend to fetch and display processed analytics.
 - Uses **TailwindCSS, Radix UI, and React Query** for a clean, responsive, and user-friendly UI.
@@ -72,5 +72,8 @@ The app will run at:
 http://localhost:8080
 ```
 
-Downloadable CSV File for data set
+## Downloadable CSV File for data set
 https://drive.google.com/file/d/1J_dmXv3_ZjwlEbmOE8dUf194cP48Y2FE/view?usp=sharing
+
+## Deployed :
+Versel
