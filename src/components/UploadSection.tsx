@@ -28,6 +28,8 @@ import {
   AlertDescription
 } from '@/components/ui/alert';
 
+
+
 const computeValidationResults = (data: any[]) => {
   const totalRows = data.length;
   let missingValues = 0;
@@ -73,7 +75,8 @@ const computeValidationResults = (data: any[]) => {
   };
 };
 
-const UploadSection = () => {
+const UploadSection = ({ onProceed }: { onProceed: () => void }) => {
+
   const [uploadedFile, setUploadedFile] = useState(false);
   const [dataSource, setDataSource] = useState<'file' | 'sample' | null>(null);
   const [previewData, setPreviewData] = useState<any[]>([]);
@@ -122,6 +125,8 @@ const UploadSection = () => {
     const sampleData = [
       { id: 'U001', email: 'john@example.com', age: 28, location: 'NY', engagement: 0.85 },
       { id: 'U002', email: 'sarah@example.com', age: 34, location: 'CA', engagement: 0.72 },
+      { id: 'U003', email: 'mike@example.com', age: 41, location: 'TX', engagement: 0.91 },
+      { id: 'U004', email: 'emma@example.com', age: 29, location: 'FL', engagement: 0.68 },
       { id: 'U003', email: 'mike@example.com', age: 41, location: 'TX', engagement: 0.91 },
       { id: 'U004', email: 'emma@example.com', age: 29, location: 'FL', engagement: 0.68 },
       { id: 'U005', email: 'david@example.com', age: 37, location: 'WA', engagement: 0.79 }
@@ -262,7 +267,7 @@ const UploadSection = () => {
               </div>
 
               <div className="mt-6 flex justify-center space-x-4">
-                <Button className="bg-blue-600 hover:bg-blue-700">
+                <Button className="bg-blue-600 hover:bg-blue-700" onClick={onProceed}>
                   Proceed to Analysis
                 </Button>
                 <Button variant="outline" onClick={() => setUploadedFile(false)}>

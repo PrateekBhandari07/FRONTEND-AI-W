@@ -18,19 +18,20 @@ import AnomalyMonitor from '@/components/AnomalyMonitor';
 import SummaryDashboard from '@/components/SummaryDashboard';
 
 const Index = () => {
-  const [activeTab, setActiveTab] = useState('summary');
+  const [activeTab, setActiveTab] = useState('upload');
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+
   const tabConfig = [
-    { id: 'summary', label: 'Summary', icon: BarChart3 },
     { id: 'upload', label: 'Upload Data', icon: Upload },
     { id: 'scoring', label: 'Lead Scoring', icon: TrendingUp },
-    { id: 'budget', label: 'Budget Optimization', icon: BarChart3 },
     { id: 'explainability', label: 'AI Explainability', icon: Eye },
+    { id: 'budget', label: 'Budget Optimization', icon: BarChart3 },
     { id: 'bias', label: 'Bias & Fairness', icon: Scale },
     { id: 'compliance', label: 'Compliance', icon: Shield },
     { id: 'ethics', label: 'Morality compass', icon: Brain },
-    { id: 'anomalies', label: 'Anomaly Detection', icon: AlertTriangle },
+    { id: 'summary', label: 'Summary', icon: BarChart3 },
+    
   ];
 
   const handleTabSelect = (tabId: string) => {
@@ -46,7 +47,7 @@ const Index = () => {
           <div className="flex items-center justify-between h-16">
             <div className="flex items-center space-x-3">
               <div className="w-10 h-10 bg-gradient-to-r from-blue-600 to-green-600 rounded-lg flex items-center justify-center">
-                <Shield className="w-6 h-6 text-white" />
+              <img src="/a.png" alt="Logo" className="w-10 h-10 mx-auto my-4 rounded-lg" />
               </div>
               <div>
                 <h1 className="text-xl font-bold text-slate-900">BlindSpot</h1>
@@ -106,7 +107,7 @@ const Index = () => {
           {/* Desktop Navigation Tabs - Horizontal Scrollable */}
           <div className="hidden md:block mb-8">
             <div className="bg-white/50 backdrop-blur-sm rounded-lg p-1 overflow-x-auto">
-              <TabsList className="grid w-full grid-cols-9 gap-1 bg-transparent h-auto p-0">
+              <TabsList className="grid w-full grid-cols-8 gap-1 bg-transparent h-auto p-0">
                 {tabConfig.map((tab) => {
                   const Icon = tab.icon;
                   return (
@@ -151,13 +152,12 @@ const Index = () => {
 
           {/* Tab Content */}
           <div className="space-y-6">
-            <TabsContent value="summary" className="mt-0">
-              <SummaryDashboard />
-            </TabsContent>
+            
 
-            <TabsContent value="upload" className="mt-0">
-              <UploadSection />
-            </TabsContent>
+          <TabsContent value="upload" className="mt-0">
+  <UploadSection onProceed={() => setActiveTab('scoring')} />
+</TabsContent>
+
 
             <TabsContent value="scoring" className="mt-0">
               <LeadScoringModule />
@@ -183,16 +183,16 @@ const Index = () => {
               <EthicalSuggestions />
             </TabsContent>
 
-            <TabsContent value="anomalies" className="mt-0">
-              <AnomalyMonitor />
+            <TabsContent value="summary" className="mt-0">
+              <SummaryDashboard />
             </TabsContent>
           </div>
         </Tabs>
       </main>
 
       {/* Footer */}
-      <footer className="mt-16 bg-white/80 backdrop-blur-sm border-t border-slate-200">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <footer className="mt-16 bg-white/80 backdrop-blur-sm border-t border-slate-200 ">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 ">
           <div className="text-center text-sm text-slate-600">
             Built for Epsilon Hackathon 2025 – Ethical AI Marketing Platform
           </div>

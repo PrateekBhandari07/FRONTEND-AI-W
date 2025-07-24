@@ -1,9 +1,28 @@
-
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
-import { Eye, Info, TrendingUp, TrendingDown } from 'lucide-react';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, Cell } from 'recharts';
+import {
+  Eye,
+  Info,
+  TrendingUp,
+  TrendingDown,
+} from 'lucide-react';
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip,
+  ResponsiveContainer,
+  Cell,
+} from 'recharts';
 
 const ExplainabilitySection = () => {
   const shapData = [
@@ -14,53 +33,77 @@ const ExplainabilitySection = () => {
     { feature: 'Geographic Location', impact: 0.25, direction: 'positive' },
     { feature: 'Social Media Activity', impact: 0.22, direction: 'positive' },
     { feature: 'Time on Site', impact: -0.18, direction: 'negative' },
-    { feature: 'Device Type', impact: 0.15, direction: 'positive' }
+    { feature: 'Device Type', impact: 0.15, direction: 'positive' },
   ];
 
   const explanationCards = [
     {
-      title: "High Lead Score Drivers",
+      title: 'High Lead Score Drivers',
       items: [
-        { feature: "Email Open Rate", value: "85%", impact: "Increased score by +0.23" },
-        { feature: "Previous Purchases", value: "3 orders", impact: "Increased score by +0.19" },
-        { feature: "Website Sessions", value: "12/month", impact: "Increased score by +0.15" }
-      ]
+        {
+          feature: 'Email Open Rate',
+          value: '85%',
+          impact: '+0.23',
+        },
+        {
+          feature: 'Previous Purchases',
+          value: '3 orders',
+          impact: '+0.19',
+        },
+        {
+          feature: 'Website Sessions',
+          value: '12/month',
+          impact: '+0.15',
+        },
+      ],
     },
     {
-      title: "Score Reduction Factors",
+      title: 'Score Reduction Factors',
       items: [
-        { feature: "Account Age", value: "< 30 days", impact: "Decreased score by -0.12" },
-        { feature: "Mobile Usage", value: "Only mobile", impact: "Decreased score by -0.08" },
-        { feature: "Geographic Risk", value: "Low-conversion area", impact: "Decreased score by -0.05" }
-      ]
-    }
+        {
+          feature: 'Account Age',
+          value: '< 30 days',
+          impact: '-0.12',
+        },
+        {
+          feature: 'Mobile Usage',
+          value: 'Only mobile',
+          impact: '-0.08',
+        },
+        {
+          feature: 'Geographic Risk',
+          value: 'Low-conversion area',
+          impact: '-0.05',
+        },
+      ],
+    },
   ];
 
   const microExplanations = [
     {
-      change: "Email Open Rate ↑",
-      description: "Higher than average open rate increased lead score",
-      impact: "+15%",
-      confidence: 0.87
+      change: 'Email Open Rate ↑',
+      description: 'Higher than average open rate increased lead score',
+      impact: '+15%',
+      confidence: 0.87,
     },
     {
-      change: "Purchase Frequency ↑", 
-      description: "Multiple recent purchases indicate high engagement",
-      impact: "+12%",
-      confidence: 0.91
+      change: 'Purchase Frequency ↑',
+      description: 'Multiple recent purchases indicate high engagement',
+      impact: '+12%',
+      confidence: 0.91,
     },
     {
-      change: "Time Since Last Visit ↓",
-      description: "Recent activity suggests active interest",
-      impact: "+8%",
-      confidence: 0.76
+      change: 'Time Since Last Visit ↓',
+      description: 'Recent activity suggests active interest',
+      impact: '+8%',
+      confidence: 0.76,
     },
     {
-      change: "Age Demographic ↓",
-      description: "Age group shows lower conversion historically",
-      impact: "-6%",
-      confidence: 0.82
-    }
+      change: 'Age Demographic ↓',
+      description: 'Age group shows lower conversion historically',
+      impact: '-6%',
+      confidence: 0.82,
+    },
   ];
 
   return (
@@ -91,25 +134,35 @@ const ExplainabilitySection = () => {
             <ResponsiveContainer width="100%" height="100%">
               <BarChart
                 data={shapData}
-                layout="horizontal"
-                margin={{ top: 5, right: 30, left: 100, bottom: 5 }}
+                layout="vertical"
+                margin={{ top: 20, right: 30, left: 120, bottom: 20 }}
               >
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis type="number" domain={[-0.5, 0.5]} />
-                <YAxis dataKey="feature" type="category" width={100} />
-                <Tooltip 
-                  formatter={(value) => [
-                    `${Number(value) > 0 ? '+' : ''}${(Number(value) * 100).toFixed(1)}%`,
-                    'Impact on Score'
+                <YAxis
+                  type="category"
+                  dataKey="feature"
+                  width={150} // Increase width to avoid truncation
+                  tick={{ fontSize: 14 }} // Adjust font size
+                  interval={0} // Force all labels to show
+                />
+                <Tooltip
+                  formatter={(value: number) => [
+                    `${value > 0 ? '+' : ''}${(value * 100).toFixed(1)}%`,
+                    'Impact',
                   ]}
                 />
-                <Bar dataKey="impact">
+                <Bar dataKey="impact" isAnimationActive={false}>
                   {shapData.map((entry, index) => (
-                    <Cell key={`cell-${index}`} fill={entry.direction === 'positive' ? '#10b981' : '#ef4444'} />
+                    <Cell
+                      key={`cell-${index}`}
+                      fill={entry.direction === 'positive' ? '#10b981' : '#ef4444'}
+                    />
                   ))}
                 </Bar>
               </BarChart>
             </ResponsiveContainer>
+
           </div>
         </CardContent>
       </Card>
@@ -124,15 +177,21 @@ const ExplainabilitySection = () => {
             <CardContent>
               <div className="space-y-4">
                 {card.items.map((item, itemIndex) => (
-                  <div key={itemIndex} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+                  <div
+                    key={itemIndex}
+                    className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
+                  >
                     <div>
                       <div className="font-medium text-slate-900">{item.feature}</div>
                       <div className="text-sm text-slate-600">{item.value}</div>
                     </div>
-                    <Badge className={item.impact.startsWith('+') ? 
-                      'bg-green-100 text-green-800 border-green-200' : 
-                      'bg-red-100 text-red-800 border-red-200'
-                    }>
+                    <Badge
+                      className={
+                        item.impact.startsWith('+')
+                          ? 'bg-green-100 text-green-800 border-green-200'
+                          : 'bg-red-100 text-red-800 border-red-200'
+                      }
+                    >
                       {item.impact}
                     </Badge>
                   </div>
@@ -157,7 +216,10 @@ const ExplainabilitySection = () => {
         <CardContent>
           <div className="space-y-4">
             {microExplanations.map((explanation, index) => (
-              <div key={index} className="flex items-center justify-between p-4 border rounded-lg hover:bg-slate-50 transition-colors">
+              <div
+                key={index}
+                className="flex items-center justify-between p-4 border rounded-lg hover:bg-slate-50 transition-colors"
+              >
                 <div className="flex items-center space-x-4">
                   <div className="flex items-center space-x-2">
                     {explanation.impact.startsWith('+') ? (
@@ -170,10 +232,13 @@ const ExplainabilitySection = () => {
                   <span className="text-slate-600">{explanation.description}</span>
                 </div>
                 <div className="flex items-center space-x-3">
-                  <Badge className={explanation.impact.startsWith('+') ? 
-                    'bg-green-100 text-green-800' : 
-                    'bg-red-100 text-red-800'
-                  }>
+                  <Badge
+                    className={
+                      explanation.impact.startsWith('+')
+                        ? 'bg-green-100 text-green-800'
+                        : 'bg-red-100 text-red-800'
+                    }
+                  >
                     {explanation.impact}
                   </Badge>
                   <div className="text-right">
